@@ -21,7 +21,7 @@ jobs:
         id: docker_meta
         uses: crazy-max/ghaction-docker-meta@v1
         with:
-          images: ghcr.io/${{ github.repository_owner }}/webmak
+          images: ghcr.io/${{ github.repository_owner }}/python-msi
           tag-sha: true
           tag-edge: false
           tag-latest: true
@@ -45,14 +45,14 @@ jobs:
           tags: ${{ steps.docker_meta.outputs.tags }} 
           file: ./Dockerfile
           
-#      - name: Monitor image for vulnerabilities with Snyk
-#        uses: snyk/actions/docker@master
-#        env:
-#          SNYK_TOKEN: ${{ secrets.SNYK }}
-#        with:
-#          command: monitor
-#          image: "ghcr.io/gbaeke/rgapi:main"
-#          args: --file=Dockerfile --project-name=rgapi 
+      - name: Monitor image for vulnerabilities with Snyk
+        uses: snyk/actions/docker@master
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK }}
+        with:
+          command: monitor
+          image: "ghcr.io/gbaeke/rgapi:main"
+          args: --file=Dockerfile --project-name=python-msi 
           
       - name: Push image
         uses: docker/build-push-action@v2
